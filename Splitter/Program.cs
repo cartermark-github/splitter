@@ -23,21 +23,51 @@ namespace Splitter
                 }
                 else if(args[0].ToUpper() == "MERGE")
                 {
-                    Console.WriteLine("merge command");
+                    if(CheckFolder(args[1]) == true)
+                    {
+                        MergeFile(args[1]);
+                    }
                 }
                 else
                 {
-                    Console.Write("Unknown Command: " + args[0]);
+                    Console.WriteLine("Usage:");
+                    Console.WriteLine("SPLIT [filename] [Number of splits]");
+                    Console.WriteLine("MERGE [folder name]");
                 }
                 
             }
             else
             {
-                Console.Write("No command line arguments found.");
-                
+                Console.WriteLine("Usage:");
+                Console.WriteLine("SPLIT [filename] [Number of splits]");
+                Console.WriteLine("MERGE [folder name]");
+
             }
                 
             
+        }
+
+
+        public static bool CheckFolder(string fn)
+        {
+            try
+            {
+               if (Directory.Exists(fn))
+               {
+                    return true;
+               }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                return false;
+            }
+
+          
         }
 
 
@@ -103,8 +133,6 @@ namespace Splitter
 
         public static void MergeFile(string inputfildername1)
         {
-            bool Output = false;
-
             try
             {
                 string[] tmpfiles = Directory.GetFiles(inputfildername1, "*.tmp");
@@ -125,7 +153,7 @@ namespace Splitter
                             outPutFile.Flush();
                             outPutFile.Close();
                         }
-                        outPutFile = new FileStream(SaveFileFolder + "\\" + baseFileName + extension, FileMode.OpenOrCreate, FileAccess.Write);
+                        outPutFile = new FileStream(inputfildername1 + "\\" + baseFileName + extension, FileMode.OpenOrCreate, FileAccess.Write);
                     }
 
                     int bytesRead = 0;
@@ -136,7 +164,7 @@ namespace Splitter
                         outPutFile.Write(buffer, 0, bytesRead);
 
                     inputTempFile.Close();
-                    File.Delete(tempFile);
+                    //File.Delete(tempFile);
                     PrevFileName = baseFileName;
                 }
                 outPutFile.Close();
