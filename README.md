@@ -1,5 +1,5 @@
 # splitter
-Split/Merge large files so they can be saved to DVD.
+Console app to Split/Merge large files so they can be saved to DVD.
 
 Splitter has two commands SPLIT and MERGE.
 
